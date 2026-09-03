@@ -56,6 +56,46 @@
     }
   }
 
+  // Product showcase tabs (homepage)
+  var showcaseTabs = document.querySelectorAll(".showcase-tab");
+  var showcasePanel = document.querySelector(".showcase-panel");
+  if (showcaseTabs.length && showcasePanel) {
+    showcaseTabs.forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        var id = tab.getAttribute("data-target");
+
+        showcaseTabs.forEach(function (t) {
+          t.classList.toggle("active", t === tab);
+          t.setAttribute("aria-selected", t === tab ? "true" : "false");
+        });
+
+        document.querySelectorAll(".showcase-content").forEach(function (panel) {
+          panel.classList.toggle("active", panel.getAttribute("data-id") === id);
+        });
+
+        showcasePanel.style.setProperty("--panel-accent", tab.getAttribute("data-accent") || "");
+      });
+    });
+  }
+
+  // Subtle pointer-tilt on product cards (skip touch / reduced-motion)
+  var prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var supportsHover = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (supportsHover && !prefersReducedMotion) {
+    document.querySelectorAll(".p-card").forEach(function (card) {
+      card.addEventListener("mousemove", function (e) {
+        var rect = card.getBoundingClientRect();
+        var px = (e.clientX - rect.left) / rect.width - 0.5;
+        var py = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform =
+          "translateY(-4px) rotateX(" + (py * -6).toFixed(2) + "deg) rotateY(" + (px * 8).toFixed(2) + "deg)";
+      });
+      card.addEventListener("mouseleave", function () {
+        card.style.transform = "";
+      });
+    });
+  }
+
   // Product interest pre-fill on contact page (?product=eduhan)
   var params = new URLSearchParams(location.search);
   var product = params.get("product");
