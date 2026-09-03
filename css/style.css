@@ -23,6 +23,9 @@
   --hanzio:#0891b2;
   --ai-1:#7c3aed;
   --ai-2:#06b6d4;
+  --gold:#b8860b;
+  --brand-navy:#122b57;
+  --brand-green:#1f8a4c;
 
   --radius-lg:20px;
   --radius-md:14px;
@@ -62,6 +65,15 @@ button{font-family:inherit;}
 }
 .eyebrow::before{content:"";width:18px;height:2px;background:var(--indigo);border-radius:2px;}
 .lead{font-size:19px;color:var(--ink-soft);}
+
+/* tagline treatment matching the logo's own "Innovate · Build · Elevate" lockup */
+.tagline-mark{
+  display:inline-flex;align-items:center;gap:10px;margin-bottom:16px;
+  font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--brand-navy);
+}
+.tagline-mark::before,.tagline-mark::after{content:"";width:22px;height:1px;background:var(--gold);}
+.tagline-mark .dot{width:4px;height:4px;border-radius:50%;background:var(--gold);flex:none;}
 
 /* ---------- buttons ---------- */
 .btn{
@@ -151,11 +163,19 @@ button{font-family:inherit;}
 }
 @keyframes blobFloat{
   0%,100%{transform:translate(0,0) scale(1);}
-  50%{transform:translate(-30px,26px) scale(1.08);}
+  50%{transform:translate(-30px,26px) scale(1.28);}
 }
 @media (prefers-reduced-motion: reduce){
   .hero::before,.hero::after{animation:none;}
 }
+
+#hero-3d{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  width:100%;height:100%;display:block;
+  mask-image:linear-gradient(180deg,#000 60%,transparent 100%);
+  -webkit-mask-image:linear-gradient(180deg,#000 60%,transparent 100%);
+}
+@media (max-width:860px){ #hero-3d{opacity:.6;} }
 
 .ai-badge{
   display:inline-flex;align-items:center;gap:8px;padding:7px 14px 7px 10px;border-radius:999px;
@@ -178,11 +198,17 @@ button{font-family:inherit;}
 .hero .hero-actions{justify-content:center;}
 .hero h1{font-size:52px;letter-spacing:-0.03em;}
 .hero h1 .accent{
+  display:inline-block;
   background:linear-gradient(90deg,var(--indigo),var(--ai-1),var(--hanzio),var(--indigo));
   background-size:300% 100%;
   -webkit-background-clip:text;background-clip:text;color:transparent;
   animation:shimmer 8s ease-in-out infinite;
+  transition:opacity .32s ease, transform .32s ease;
 }
+.hero h1 .accent.phrase-out{opacity:0;transform:translateY(10px);}
+.hero h1 .accent.phrase-in{animation:shimmer 8s ease-in-out infinite, phraseIn .42s ease;}
+@keyframes phraseIn{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+@media (prefers-reduced-motion: reduce){ .hero h1 .accent.phrase-out,.hero h1 .accent.phrase-in{opacity:1;transform:none;animation:none;} }
 @keyframes shimmer{
   0%{background-position:0% 50%;}
   50%{background-position:100% 50%;}

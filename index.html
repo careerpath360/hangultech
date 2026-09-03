@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Hangul Technologies — Technology Company</title>
-<meta name="description" content="Hangul Technologies (Pvt) Ltd is a technology company. We build and operate our own products — including EduHan, MediHan, HangoTrip, HayaKart and Hanzio — and build software for other teams too: app development, cloud/DevOps, AI and ongoing support." />
+<title>Hangul — Innovate. Build. Elevate.</title>
+<meta name="description" content="Hangul is a technology company. We build and operate our own products — including EduHan, MediHan, HangoTrip, HayaKart and Hanzio — and build software for other teams too: app development, cloud/DevOps, AI and ongoing support." />
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,7 +15,7 @@
 
 <header class="nav">
   <div class="nav-inner">
-    <a href="/" class="brand"><img src="/assets/logos/hangul-logo.png" alt="Hangul Technologies" class="brand-logo" /></a>
+    <a href="/" class="brand"><img src="/assets/logos/hangul-logo.png" alt="Hangul" class="brand-logo" /></a>
     <nav class="nav-links" id="nav-links">
       <a href="/" data-path="/">Home</a>
       <a href="/about" data-path="/about">About</a>
@@ -32,11 +32,12 @@
 
 <section class="hero">
   <div class="hero-bg-grid"></div>
+  <canvas id="hero-3d" aria-hidden="true"></canvas>
   <div class="container hero-grid">
     <div>
       <span class="ai-badge"><span class="pulse"></span>AI-assisted engineering, human-run operations</span>
-      <div class="eyebrow">Hangul Technologies (Pvt) Ltd</div>
-      <h1>We build digital platforms for <span class="accent">real, everyday operations.</span></h1>
+      <div class="tagline-mark">Innovate <span class="dot"></span> Build <span class="dot"></span> Elevate</div>
+      <h1>We build digital platforms for <span class="accent" id="hero-phrase">real, everyday operations.</span></h1>
       <p class="lead">One engineering team, a growing portfolio of products across education, healthcare, travel, retail and home services — plus app development, cloud &amp; DevOps, AI integrations, and ongoing support for teams who need to ship and run software reliably.</p>
       <div class="hero-actions">
         <a href="/products" class="btn btn-primary">Explore our products</a>
@@ -243,7 +244,7 @@
       <p>Whether it's one of our own platforms or something new for your team, we'd like to hear about it.</p>
       <div class="btn-row">
         <a href="/contact" class="btn btn-light">Contact us</a>
-        <a href="/about" class="btn btn-ghost" style="border-color:rgba(255,255,255,.3);color:#fff;">About Hangul Technologies</a>
+        <a href="/about" class="btn btn-ghost" style="border-color:rgba(255,255,255,.3);color:#fff;">About Hangul</a>
       </div>
     </div>
   </div>
@@ -253,7 +254,7 @@
   <div class="container">
     <div class="footer-grid">
       <div>
-        <div class="footer-brand"><img src="/assets/logos/hangul-logo.png" alt="Hangul Technologies" class="footer-brand-logo" /></div>
+        <div class="footer-brand"><img src="/assets/logos/hangul-logo.png" alt="Hangul" class="footer-brand-logo" /></div>
         <p>A technology company building software — our own products like EduHan and MediHan, and platforms we build and run for other teams.</p>
       </div>
       <div>
@@ -294,5 +295,7 @@
 </footer>
 
 <script src="/js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js" defer></script>
+<script src="/js/hero.js" defer></script>
 </body>
 </html>
