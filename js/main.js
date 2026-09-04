@@ -56,26 +56,64 @@
     }
   }
 
-  // Product showcase tabs (homepage)
-  var showcaseTabs = document.querySelectorAll(".showcase-tab");
+  // Product showcase tabs (homepage) — click to select, auto-advances like a slideshow.
+  var showcaseTabsList = document.querySelectorAll(".showcase-tab");
   var showcasePanel = document.querySelector(".showcase-panel");
-  if (showcaseTabs.length && showcasePanel) {
+  if (showcaseTabsList.length && showcasePanel) {
+    var showcaseTabs = Array.prototype.slice.call(showcaseTabsList);
+
+    var activateShowcaseTab = function (tab) {
+      var id = tab.getAttribute("data-target");
+
+      showcaseTabs.forEach(function (t) {
+        t.classList.toggle("active", t === tab);
+        t.setAttribute("aria-selected", t === tab ? "true" : "false");
+      });
+
+      document.querySelectorAll(".showcase-content").forEach(function (panel) {
+        panel.classList.toggle("active", panel.getAttribute("data-id") === id);
+      });
+
+      showcasePanel.style.setProperty("--panel-accent", tab.getAttribute("data-accent") || "");
+    };
+
+    var showcaseReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var SHOWCASE_INTERVAL_MS = 4200;
+    var showcaseTimer = null;
+
+    function showcaseAdvance() {
+      var current = showcaseTabs.findIndex(function (t) {
+        return t.classList.contains("active");
+      });
+      var next = showcaseTabs[(current + 1) % showcaseTabs.length];
+      activateShowcaseTab(next);
+    }
+    function startShowcaseAutoplay() {
+      if (showcaseReducedMotion) return;
+      stopShowcaseAutoplay();
+      showcaseTimer = setInterval(showcaseAdvance, SHOWCASE_INTERVAL_MS);
+    }
+    function stopShowcaseAutoplay() {
+      if (showcaseTimer) {
+        clearInterval(showcaseTimer);
+        showcaseTimer = null;
+      }
+    }
+
     showcaseTabs.forEach(function (tab) {
       tab.addEventListener("click", function () {
-        var id = tab.getAttribute("data-target");
-
-        showcaseTabs.forEach(function (t) {
-          t.classList.toggle("active", t === tab);
-          t.setAttribute("aria-selected", t === tab ? "true" : "false");
-        });
-
-        document.querySelectorAll(".showcase-content").forEach(function (panel) {
-          panel.classList.toggle("active", panel.getAttribute("data-id") === id);
-        });
-
-        showcasePanel.style.setProperty("--panel-accent", tab.getAttribute("data-accent") || "");
+        activateShowcaseTab(tab);
+        startShowcaseAutoplay(); // restart the countdown after a manual pick
       });
     });
+
+    var showcaseSection = document.querySelector(".showcase");
+    if (showcaseSection) {
+      showcaseSection.addEventListener("mouseenter", stopShowcaseAutoplay);
+      showcaseSection.addEventListener("mouseleave", startShowcaseAutoplay);
+    }
+
+    startShowcaseAutoplay();
   }
 
   // Subtle pointer-tilt on product cards (skip touch / reduced-motion)
