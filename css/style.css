@@ -370,6 +370,15 @@ button{font-family:inherit;}
 .footer a{color:rgba(255,255,255,.65);font-size:14px;transition:color .15s ease;}
 .footer a:hover{color:#fff;}
 .footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:24px;font-size:13px;color:rgba(255,255,255,.45);flex-wrap:wrap;gap:12px;}
+.footer-bottom-left{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.startup-badge{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+  color:rgba(255,255,255,.75);font-size:12px;font-weight:600;white-space:nowrap;
+  transition:background .15s ease,color .15s ease,border-color .15s ease;
+}
+.startup-badge:hover{background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.3);}
+.startup-badge svg{width:14px;height:14px;flex:none;color:var(--hanzio);}
 .footer-socials{display:flex;gap:10px;}
 .footer-socials a{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;}
 .footer-socials a:hover{background:rgba(255,255,255,.08);}
