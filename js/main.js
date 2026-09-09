@@ -1,6 +1,16 @@
 // Hangul Technologies — shared site behaviour
 
 (function () {
+  // Shrink the nav/logo once the page has scrolled a bit — a small premium touch.
+  var navEl = document.querySelector(".nav");
+  if (navEl) {
+    var applyScrolledState = function () {
+      navEl.classList.toggle("scrolled", window.scrollY > 40);
+    };
+    applyScrolledState();
+    window.addEventListener("scroll", applyScrolledState, { passive: true });
+  }
+
   // Mobile nav toggle
   var toggle = document.querySelector(".nav-toggle");
   var links = document.querySelector(".nav-links");

@@ -59,10 +59,15 @@
   }
 
   // Points scattered inside a sphere shell — a loose "network of nodes."
-  var COUNT = isSmall ? 60 : 130;
+  // Normal (non-additive) blending on purpose: our hero is light, not dark like a
+  // typical "cinematic" hero — additive blending washes out against a light backdrop.
+  var COUNT = isSmall ? 90 : 220;
   var RADIUS = 13;
   var pts = [];
   var positions = new Float32Array(COUNT * 3);
+  var colors = new Float32Array(COUNT * 3);
+  var colorA = new THREE.Color(0x4f46e5); // brand indigo
+  var colorB = new THREE.Color(0x0891b2); // brand teal
   for (var i = 0; i < COUNT; i++) {
     var v = new THREE.Vector3(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1)
       .normalize()
@@ -71,21 +76,26 @@
     positions[i * 3] = v.x;
     positions[i * 3 + 1] = v.y;
     positions[i * 3 + 2] = v.z;
+    var mixed = colorA.clone().lerp(colorB, Math.random());
+    colors[i * 3] = mixed.r;
+    colors[i * 3 + 1] = mixed.g;
+    colors[i * 3 + 2] = mixed.b;
   }
 
   var pointsGeo = new THREE.BufferGeometry();
   pointsGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  pointsGeo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
   var pointsMat = new THREE.PointsMaterial({
-    color: 0x6d6cf0,
-    size: 0.32,
+    size: 0.3,
     transparent: true,
-    opacity: 0.85,
-    sizeAttenuation: true
+    opacity: 0.8,
+    sizeAttenuation: true,
+    vertexColors: true
   });
   var pointCloud = new THREE.Points(pointsGeo, pointsMat);
 
   // Connect nearby nodes — the "circuit board" look.
-  var THRESH = 6;
+  var THRESH = 5.2;
   var linePositions = [];
   for (var a = 0; a < pts.length; a++) {
     for (var b = a + 1; b < pts.length; b++) {
@@ -96,7 +106,7 @@
   }
   var lineGeo = new THREE.BufferGeometry();
   lineGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(linePositions), 3));
-  var lineMat = new THREE.LineBasicMaterial({ color: 0x8b8ff5, transparent: true, opacity: 0.16 });
+  var lineMat = new THREE.LineBasicMaterial({ color: 0x6366f1, transparent: true, opacity: 0.22 });
   var lines = new THREE.LineSegments(lineGeo, lineMat);
 
   var group = new THREE.Group();
@@ -131,12 +141,15 @@
     return; // single static frame — no animation loop for reduced-motion users.
   }
 
+  var clock = new THREE.Clock();
   function animate() {
     requestAnimationFrame(animate);
     if (!inView) return;
     group.rotation.y += 0.0016;
     group.rotation.x += (0.3 + mouseY * 0.35 - group.rotation.x) * 0.02;
     group.rotation.y += mouseX * 0.002;
+    var t = clock.getElapsedTime();
+    pointsMat.size = 0.3 + Math.sin(t * 0.9) * 0.05; // gentle breathing pulse
     renderer.render(scene, camera);
   }
   animate();
